@@ -28,4 +28,5 @@ spring:
 
 
 
-env
+env: prod
+branch: master
