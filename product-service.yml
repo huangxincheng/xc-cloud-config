@@ -27,3 +27,5 @@ spring:
 #    password: guest
 
 
+env: test
+branch: test
