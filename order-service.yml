@@ -47,3 +47,8 @@ hystrix:
         timeout:
           # 开启hystrix超时机制
           enabled: true
+
+
+ribbon:
+  eager-load:
+    enabled: true
