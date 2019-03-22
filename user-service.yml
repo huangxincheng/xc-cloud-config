@@ -1,0 +1,68 @@
+server:
+  port: 12001
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://www.limaila.com:3306/xc-cloud-user?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: hxc
+      password: hxc
+      stat-view-servlet:
+        login-username: admin
+        login-password: 123456
+  zipkin:
+    base-url: http://www.limaila.com:9411/
+    sender:
+      type: web 
+  sleuth:
+    sampler:
+      probability: 1
+
+
+# 全局配置feign超时时间，如果不配置fiegn的超时时间是10秒，连接时间是60秒，
+# 但是由于feign默认的hystrix的超时时间是1秒，导致最终feign的超时时间为1秒 ，可以通过feign.hystrix.enable=false关闭hystrix
+feign:
+  client:
+    config:
+      default:
+        # 设置超时连接时间为2秒 和 读时间为2秒
+        connectTimeout: 200000
+        readTimeout: 200000
+  hystrix:
+    # feign开启hystrix
+    enabled: true
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # hystrix 超时时间为5秒
+            timeoutInMilliseconds: 500000
+        timeout:
+          # 开启hystrix超时机制
+          enabled: true
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    # dev环境打开 控制台打印SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 逻辑已删除值(默认为 1)
+      logic-delete-value: 1
+      # 逻辑未删除值(默认为 0)
+      logic-not-delete-value: 0
+
+
+
+env: prod
+branch: master
